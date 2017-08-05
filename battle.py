@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+from itertools import product
 
 class Simulation():
     def __init__(self, team1, team2, guess):
@@ -6,6 +8,7 @@ class Simulation():
         self.team2 = team2
         self.guess = guess
         self.stats = pd.read_csv("Pokemon.csv").groupby('#').first()
+        self.type_stats = pd.read_csv("Type_Stats.csv")
 
     def check_guess(self):
         team1_alive = self.stats.loc[self.team1,:].sort_values('Total')
@@ -26,7 +29,18 @@ class Simulation():
 
     def fight(self, attack_team, defend_team):
         defender_hp = defend_team.iloc[0]["HP"]
-        attack_pwr = attack_team.iloc[0]["Attack"] - defend_team.iloc[0]["Defense"]
+        attacker_attack = attack_team.iloc[0]["Attack"]
+        defender_defense = defend_team.iloc[0]["Defense"]
+        attack_types = [attack_team.iloc[0]["Type 1"],attack_team.iloc[0]["Type 2"]]
+        defense_types = [defend_team.iloc[0]["Type 1"],defend_team.iloc[0]["Type 2"]]
+        attack_types = [x for x in attack_types if str(x) != 'nan']
+        defense_types = [x for x in defense_types if str(x) != 'nan']
+        attack_modifier = []
+        for i in product(attack_types, defense_types):
+            attack_modifier.append(type_stats.loc[i])
+        attack_modifier = np.prod(attack_modifier)
+
+        attack_pwr = attacker_attack*attack_modifier - defender_defense
 
         attack_pwr = max(1,attack_pwr)
 
