@@ -53,11 +53,17 @@
 
     <header>
         <div class="header-content">
+
             <div class="header-content-inner">
                 <h1 id="homeHeading">Create a New Account</h1>
                 <hr>
                 <p>If you already have an existing account, please login <a href="{{ url_for('login')}}"> here.</a></p>
-                <form class="form-group" action="" method="post">
+                {% if error %}
+                 <div id="loginError" class="alert alert-danger">
+                        <strong>Info!</strong> {{error}}
+                    </div>
+                {% endif %}
+                <form class="form-group" action="{{ url_for('signup')}}" method="post">
         					<input class="form-control" type="text" placeholder="Username" required="" name="username" value="{{request.form.username}}">
         					<input class="form-control" type="password" placeholder="* * * * * * * * * *" required="" name="password" value="{{request.form.password}}" >
         					<button type="submit" class="btn btn-primary">Login</button>
