@@ -2,13 +2,15 @@ import pandas as pd
 import numpy as np
 from itertools import product
 
+import argparse
+
 class Simulation():
     def __init__(self, team1, team2, guess):
         self.team1 = team1
         self.team2 = team2
         self.guess = guess
         self.stats = pd.read_csv("Pokemon.csv").groupby('#').first()
-        self.type_stats = pd.read_csv("Type_Stats.csv")
+        self.type_stats = pd.read_csv("Type_Stats.csv", index_col=0)
 
     def check_guess(self):
         team1_alive = self.stats.loc[self.team1,:].sort_values('Total')
@@ -37,7 +39,7 @@ class Simulation():
         defense_types = [x for x in defense_types if str(x) != 'nan']
         attack_modifier = []
         for i in product(attack_types, defense_types):
-            attack_modifier.append(type_stats.loc[i])
+            attack_modifier.append(self.type_stats.loc[i])
         attack_modifier = np.prod(attack_modifier)
 
         attack_pwr = attacker_attack*attack_modifier - defender_defense
@@ -52,4 +54,12 @@ class Simulation():
         return attack_team, defend_team
 
     def run(self):
-        return self.check_guess() 
+        return self.check_guess()
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t1','--team1', nargs='+', help='<Required> Set flag', required=True)
+    parser.add_argument('-t2','--team2', nargs='+', help='<Required> Set flag', required=True)
+    parser.add_argument('-g', '--guess', type=int)
+    args = parser.parse_args()
+    print(Simulation(list(map(int, args.team1)), list(map(int, args.team2)), args.guess).run())
