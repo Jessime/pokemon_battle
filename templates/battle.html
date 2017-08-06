@@ -79,6 +79,7 @@
     <section class="no-padding" id="portfolio">
         <div class="container-fluid">
             <div class="row no-gutter popup-gallery">
+
                 <div class="col-lg-4 col-sm-6">
                     <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
                         <img src="{{ url_for('static', filename = "images/pokemon/{}.jpg".format(t1.index[0])) }}" class="img-responsive" alt="">
@@ -95,56 +96,60 @@
 
                 <div class="col-lg-4 col-sm-6">
                     <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="{{ url_for('static', filename = "images/pokemon/buzzwole.jpg") }}" class="img-responsive" alt="">
+                        <img src="{{ url_for('static', filename = "images/pokemon/{}.jpg".format(t1.index[1])) }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    BUZZWOLE
+                                    {{t1.iloc[1].Name.upper()}}
                                 </div>
 
                             </div>
                         </div>
                     </a>
                 </div>
+
                 <div class="col-lg-4 col-sm-6">
                     <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="{{ url_for('static', filename = "images/pokemon/buzzwole.jpg") }}" class="img-responsive" alt="">
+                        <img src="{{ url_for('static', filename = "images/pokemon/{}.jpg".format(t1.index[2])) }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    BUZZWOLE
+                                    {{t1.iloc[2].Name.upper()}}
                                 </div>
 
                             </div>
                         </div>
                     </a>
                 </div>
+
                 <div class="col-lg-4 col-sm-6">
                     <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="{{ url_for('static', filename = "images/pokemon/buzzwole.jpg") }}" class="img-responsive" alt="">
+                        <img src="{{ url_for('static', filename = "images/pokemon/{}.jpg".format(t1.index[3])) }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    BUZZWOLE
+                                    {{t1.iloc[3].Name.upper()}}
                                 </div>
 
                             </div>
                         </div>
                     </a>
                 </div>
+
                 <div class="col-lg-4 col-sm-6">
                     <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="{{ url_for('static', filename = "images/pokemon/buzzwole.jpg") }}" class="img-responsive" alt="">
+                        <img src="{{ url_for('static', filename = "images/pokemon/{}.jpg".format(t1.index[4])) }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    BUZZWOLE
+                                    {{t1.iloc[4].Name.upper()}}
                                 </div>
 
                             </div>
                         </div>
                     </a>
                 </div>
+
             </div>
         </div>
     </section>
@@ -162,13 +167,15 @@
     <section class="no-padding" id="portfolio">
         <div class="container-fluid">
             <div class="row no-gutter popup-gallery">
+
+
                 <div class="col-lg-4 col-sm-6">
                     <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="{{ url_for('static', filename = "images/pokemon/buzzwole.jpg") }}" class="img-responsive" alt="">
+                        <img src="{{ url_for('static', filename = "images/pokemon/{}.jpg".format(t2.index[0])) }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    BUZZWOLE
+                                    {{t2.iloc[0].Name.upper()}}
                                 </div>
 
                             </div>
@@ -178,56 +185,60 @@
 
                 <div class="col-lg-4 col-sm-6">
                     <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="{{ url_for('static', filename = "images/pokemon/buzzwole.jpg") }}" class="img-responsive" alt="">
+                        <img src="{{ url_for('static', filename = "images/pokemon/{}.jpg".format(t2.index[1])) }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    BUZZWOLE
+                                    {{t2.iloc[1].Name.upper()}}
                                 </div>
 
                             </div>
                         </div>
                     </a>
                 </div>
+
                 <div class="col-lg-4 col-sm-6">
                     <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="{{ url_for('static', filename = "images/pokemon/buzzwole.jpg") }}" class="img-responsive" alt="">
+                        <img src="{{ url_for('static', filename = "images/pokemon/{}.jpg".format(t2.index[2])) }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    BUZZWOLE
+                                    {{t2.iloc[2].Name.upper()}}
                                 </div>
 
                             </div>
                         </div>
                     </a>
                 </div>
+
                 <div class="col-lg-4 col-sm-6">
                     <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="{{ url_for('static', filename = "images/pokemon/buzzwole.jpg") }}" class="img-responsive" alt="">
+                        <img src="{{ url_for('static', filename = "images/pokemon/{}.jpg".format(t2.index[3])) }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    BUZZWOLE
+                                    {{t2.iloc[3].Name.upper()}}
                                 </div>
 
                             </div>
                         </div>
                     </a>
                 </div>
+
                 <div class="col-lg-4 col-sm-6">
                     <a href="img/portfolio/fullsize/1.jpg" class="portfolio-box">
-                        <img src="{{ url_for('static', filename = "images/pokemon/buzzwole.jpg") }}" class="img-responsive" alt="">
+                        <img src="{{ url_for('static', filename = "images/pokemon/{}.jpg".format(t2.index[4])) }}" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
-                                    BUZZWOLE
+                                    {{t2.iloc[4].Name.upper()}}
                                 </div>
 
                             </div>
                         </div>
                     </a>
                 </div>
+
             </div>
         </div>
     </section>

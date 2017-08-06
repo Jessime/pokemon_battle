@@ -33,6 +33,7 @@ def signup():
     if request.method == 'POST':
         print('Sign up')
         t1, t2 = choose_teams()
+        print('\n', t1.index[0], '\n')
         return render_template('battle.html', t1=t1, t2=t2)
     return render_template('signup.html')
 
