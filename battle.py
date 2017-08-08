@@ -5,27 +5,24 @@ from itertools import product
 import argparse
 
 class Simulation():
-    def __init__(self, team1, team2, guess):
+    def __init__(self, team0, team1, guess):
+        self.team0 = team0
         self.team1 = team1
-        self.team2 = team2
         self.guess = guess
         self.stats = pd.read_csv("Pokemon.csv").groupby('#').first()
         self.type_stats = pd.read_csv("Type_Stats.csv", index_col=0)
 
     def check_guess(self):
+        team0_alive = self.stats.loc[self.team0,:].sort_values('Total')
         team1_alive = self.stats.loc[self.team1,:].sort_values('Total')
-        team2_alive = self.stats.loc[self.team2,:].sort_values('Total')
-        team1_turn = team1_alive.loc[:,"Speed"].sum() > team2_alive.loc[:,"Speed"].sum()
-        while not team1_alive.empty and not team2_alive.empty:
-            if team1_turn:
-                team1_alive, team2_alive = self.fight(team1_alive,team2_alive)
+        team0_turn = team0_alive.loc[:,"Speed"].sum() > team1_alive.loc[:,"Speed"].sum()
+        while not team0_alive.empty and not team1_alive.empty:
+            if team0_turn:
+                team0_alive, team1_alive = self.fight(team0_alive,team1_alive)
             else:
-                team2_alive, team1_alive = self.fight(team2_alive,team1_alive)
-            team1_turn = not team1_turn
-        if team1_alive.empty:
-            winner = 2
-        else:
-            winner = 1
+                team1_alive, team0_alive = self.fight(team1_alive,team0_alive)
+            team0_turn = not team0_turn
+        winner = team0_alive.empty
         return self.guess == winner
 
 
@@ -58,8 +55,8 @@ class Simulation():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t1','--team1', nargs='+', help='<Required> Set flag', required=True)
-    parser.add_argument('-t2','--team2', nargs='+', help='<Required> Set flag', required=True)
+    parser.add_argument('-t1','--team0', nargs='+', help='<Required> Set flag', required=True)
+    parser.add_argument('-t2','--team1', nargs='+', help='<Required> Set flag', required=True)
     parser.add_argument('-g', '--guess', type=int)
     args = parser.parse_args()
-    print(Simulation(list(map(int, args.team1)), list(map(int, args.team2)), args.guess).run())
+    print(Simulation(list(map(int, args.team0)), list(map(int, args.team1)), args.guess).run())
