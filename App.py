@@ -25,27 +25,27 @@ conn = mysql.connect()
 cursor=conn.cursor()
 
 def check_un(username):
-    cursor.execute(f"SELECT * FROM pokemon_table WHERE username='{Data.username}'")
+    cursor.execute(f"SELECT * FROM users WHERE username='{Data.username}'")
     return cursor.fetchone()
 
 def check_un_pw(username, password):
-    cursor.execute(f"SELECT * FROM pokemon_table WHERE username='{Data.username}' AND password='{Data.password}'")
+    cursor.execute(f"SELECT * FROM users WHERE username='{Data.username}' AND password='{Data.password}'")
     return cursor.fetchone()
 
 def signUp(username, password):
-    query = f"INSERT INTO pokemon_table (username, password,wins,losses) VALUES ('{username}','{password}',0,0)"
+    query = f"INSERT INTO users (username, password,wins,losses) VALUES ('{username}','{password}',0,0)"
     cursor.execute(query)
     conn.commit()
 
 def updateTable(res, username):
     if res:
-        cursor.execute(f"UPDATE pokemon_table SET wins=wins+1 WHERE username='{username}'")
+        cursor.execute(f"UPDATE users SET wins=wins+1 WHERE username='{username}'")
     else:
-        cursor.execute(f"UPDATE pokemon_table SET losses=losses+1 WHERE username='{username}'")
+        cursor.execute(f"UPDATE users SET losses=losses+1 WHERE username='{username}'")
     conn.commit()
 
 def get_wins_losses(username):
-    cursor.execute(f"SELECT wins, losses FROM pokemon_table WHERE username='{Data.username}'")
+    cursor.execute(f"SELECT wins, losses FROM users WHERE username='{Data.username}'")
     return cursor.fetchone()
 
 class Data:
