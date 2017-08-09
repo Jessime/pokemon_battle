@@ -13,40 +13,7 @@ from battle import Simulation
 app = Flask(__name__)
 
 ############################ Data #######################
-mysql = MySQL()
 
-app.config['MYSQL_DATABASE_USER'] = os.environ['MYSQL_USER']
-app.config['MYSQL_DATABASE_PASSWORD'] = os.environ['MYSQL_PASSWORD']
-app.config['MYSQL_DATABASE_HOST'] = os.environ['MYSQL_HOST']
-app.config['MYSQL_DATABASE_DB'] = os.environ['MYSQL_DB']
-mysql.init_app(app)
-
-conn = mysql.connect()
-cursor=conn.cursor()
-
-def check_un(username):
-    cursor.execute(f"SELECT * FROM users WHERE username='{Data.username}'")
-    return cursor.fetchone()
-
-def check_un_pw(username, password):
-    cursor.execute(f"SELECT * FROM users WHERE username='{Data.username}' AND password='{Data.password}'")
-    return cursor.fetchone()
-
-def signUp(username, password):
-    query = f"INSERT INTO users (username, password,wins,losses) VALUES ('{username}','{password}',0,0)"
-    cursor.execute(query)
-    conn.commit()
-
-def updateTable(res, username):
-    if res:
-        cursor.execute(f"UPDATE users SET wins=wins+1 WHERE username='{username}'")
-    else:
-        cursor.execute(f"UPDATE users SET losses=losses+1 WHERE username='{username}'")
-    conn.commit()
-
-def get_wins_losses(username):
-    cursor.execute(f"SELECT wins, losses FROM users WHERE username='{Data.username}'")
-    return cursor.fetchone()
 
 class Data:
 
@@ -55,6 +22,57 @@ class Data:
     password = None
     t1 = None
     t2 = None
+
+class DB:
+
+    def __init__(self, connection):
+        self.connection = connection
+
+    def check_un(username):
+        cursor  = self.connection.cursor()
+        cursor.execute(f"SELECT * FROM users WHERE username='{Data.username}'")
+        result = cursor.fetchone()
+        cursor.close()
+        return result
+
+    def check_un_pw(username, password):
+        cursor  = self.connection.cursor()
+        cursor.execute(f"SELECT * FROM users WHERE username='{Data.username}' AND password='{Data.password}'")
+        result = cursor.fetchone()
+        cursor.close()
+        return result
+
+    def signUp(username, password):
+        cursor = self.connection.cursor()
+        query = f"INSERT INTO users (username, password,wins,losses) VALUES ('{username}','{password}',0,0)"
+        cursor.execute(query)
+        conn.commit()
+        cursor.close()
+
+    def updateTable(res, username):
+        cursor  = self.connection.cursor()
+        if res:
+            cursor.execute(f"UPDATE users SET wins=wins+1 WHERE username='{username}'")
+        else:
+            cursor.execute(f"UPDATE users SET losses=losses+1 WHERE username='{username}'")
+        conn.commit()
+        cursor.close()
+
+    def get_wins_losses(username):
+        cursor  = self.connection.cursor()
+        cursor.execute(f"SELECT wins, losses FROM users WHERE username='{Data.username}'")
+        result = cursor.fetchone()
+        cursor.close()
+        return result
+
+app.config['MYSQL_DATABASE_USER'] = os.environ['MYSQL_USER']
+app.config['MYSQL_DATABASE_PASSWORD'] = os.environ['MYSQL_PASSWORD']
+app.config['MYSQL_DATABASE_HOST'] = os.environ['MYSQL_HOST']
+app.config['MYSQL_DATABASE_DB'] = os.environ['MYSQL_DB']
+mysql = MySQL()
+mysql.init_app(app)
+conn = mysql.connect()
+db = DB(conn)
 
 #########################################################
 
@@ -70,7 +88,7 @@ def login():
     if request.method == 'POST':
         Data.username = request.form['username']
         Data.password = request.form['password']
-        data = check_un_pw(Data.username, Data.password)
+        data = db.check_un_pw(Data.username, Data.password)
         if data is None:
             error = 'Invalid username or password. Please try again!'
             return render_template('login.html', error=error)
@@ -83,12 +101,12 @@ def signup():
     if request.method == 'POST':
         Data.username = request.form['username']
         Data.password = request.form['password']
-        data = check_un(Data.username)
+        data = db.check_un(Data.username)
         if data is not None:
             error = ' username has already been taken!'
             return render_template('signup.html', error=error)
         else:
-            signUp(Data.username, Data.password)
+            db.signUp(Data.username, Data.password)
             Data.t1, Data.t2 = choose_teams()
             return render_template('battle.html', t1=Data.t1, t2=Data.t2)
     return render_template('signup.html')
@@ -100,9 +118,9 @@ def battle():
         result = Simulation(Data.t1.index.values, Data.t2.index.values, guess).run()
         print('Guess:', guess)
         print('result:', result)
-        updateTable(result, Data.username)
+        db.updateTable(result, Data.username)
     Data.t1, Data.t2 = choose_teams()
-    wins, losses =  get_wins_losses(Data.username)
+    wins, losses =  db.get_wins_losses(Data.username)
     return render_template('battle.html',
                            t1=Data.t1,
                            t2=Data.t2,
