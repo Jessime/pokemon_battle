@@ -15,10 +15,10 @@ app = Flask(__name__)
 ############################ Data #######################
 mysql = MySQL()
 
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'Windows10'
-app.config['MYSQL_DATABASE_DB'] = 'pokemon_schema'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = os.environ['MYSQL_USER']
+app.config['MYSQL_DATABASE_PASSWORD'] = os.environ['MYSQL_PASSWORD']
+app.config['MYSQL_DATABASE_HOST'] = os.environ['MYSQL_HOST']
+app.config['MYSQL_DATABASE_DB'] = os.environ['MYSQL_DB']
 mysql.init_app(app)
 
 conn = mysql.connect()
