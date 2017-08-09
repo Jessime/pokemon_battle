@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from itertools import product
+import random
 
 import argparse
 
@@ -38,6 +39,12 @@ class Simulation():
         for i in product(attack_types, defense_types):
             attack_modifier.append(self.type_stats.loc[i])
         attack_modifier = np.prod(attack_modifier)
+
+        if random.random() < 0.33:
+            attacker_attack = attack_team.iloc[0]["Sp. Atk"]
+
+        if random.random() <0.33:
+            defender_defense = defend_team.iloc[0]["Sp. Def"]
 
         attack_pwr = attacker_attack*attack_modifier - defender_defense
 
